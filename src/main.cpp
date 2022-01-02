@@ -6,6 +6,7 @@
 #include "components/gif/MatrixGif.hpp"
 #include "components/gif/GifLoader.hpp"
 #include "components/gif/GifPlayer.hpp"
+#include "components/wifi/WiFi.hpp"
 
 #define PANEL_RES_X 64      // Number of pixels wide of each INDIVIDUAL panel module. 
 #define PANEL_RES_Y 32     // Number of pixels tall of each INDIVIDUAL panel module.
@@ -24,7 +25,6 @@ SoftSpiDriver<SOFT_MISO_PIN, SOFT_MOSI_PIN, SOFT_SCK_PIN> softSpi;
 #define SD_CONFIG SdSpiConfig(SD_CS_PIN, DEDICATED_SPI, SD_SCK_MHZ(0), &softSpi)
 
 MatrixPanel_I2S_DMA *dma_display = nullptr;
-
 
 SdFs sd;
 
@@ -75,7 +75,8 @@ dma_display->begin();
   dma_display->fillScreen(dma_display->color565(0, 0, 0));
 
   InitMatrixGif();
-
+  	
+    setupWifi();
   
 }
 

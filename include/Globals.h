@@ -36,6 +36,7 @@ extern SdFs sd;
 extern frame_status_t target_state;
 extern unsigned long lastStateChange;
 
+extern bool interruptGif, gifsLoaded;
 extern int brightness;
 extern bool autoPlay;
 extern bool gifPlaying;

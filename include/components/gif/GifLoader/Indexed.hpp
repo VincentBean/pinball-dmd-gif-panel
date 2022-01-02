@@ -9,7 +9,7 @@ class Indexed : public Loader
 public:
     String loadNextFile();
     std::vector<String> getIndexes() { if (indexes.size() == 0) loadIndexes(); return indexes; }
-    std::vector<String> readIndexFile(FsFile *indexFile);
+    std::vector<String> readIndexFile(String indexFileName);
 
 protected:
     String generateIndexFilename(int);

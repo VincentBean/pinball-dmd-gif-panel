@@ -3,9 +3,11 @@
 #include <SdFat.h>
 #include "Globals.h"
 
-int x_offset, y_offset;
+int x_offset, y_offset, lastResult;
 AnimatedGIF gif;
 FsFile f;
+bool interruptGif = false,
+     gifPlaying = false;
 
 // Draw a line of image directly on the LED Matrix
 void GIFDraw(GIFDRAW *pDraw)
@@ -149,27 +151,74 @@ int32_t GIFSeekFile(GIFFILE *pFile, int32_t iPosition)
 
 unsigned long start_tick = 0;
 
+// void ShowGIF(char *name)
+// {
+//   start_tick = millis();
+   
+//   if (gif.open(name, GIFOpenFile, GIFCloseFile, GIFReadFile, GIFSeekFile, GIFDraw))
+//   {
+//     x_offset = (MATRIX_WIDTH - gif.getCanvasWidth())/2;
+//     if (x_offset < 0) x_offset = 0;
+//     y_offset = (MATRIX_HEIGHT - gif.getCanvasHeight())/2;
+//     if (y_offset < 0) y_offset = 0;
+//     Serial.printf("Successfully opened GIF; Canvas size = %d x %d\n", gif.getCanvasWidth(), gif.getCanvasHeight());
+//     Serial.flush();
+
+// while (gif.playFrame(true, NULL))
+//     {      
+//       if ( (millis() - start_tick) > 8000) { // we'll get bored after about 8 seconds of the same looping gif
+//         break;
+//       }
+//     }
+
+//     gif.close();
+//   }
+
+// } /* ShowGIF() */
+
+int LoadGIF(char *name)
+{
+  int result = gif.open(name, GIFOpenFile, GIFCloseFile, GIFReadFile, GIFSeekFile, GIFDraw);
+
+  x_offset = (MATRIX_WIDTH - gif.getCanvasWidth()) / 2;
+  if (x_offset < 0)
+    x_offset = 0;
+
+  y_offset = (MATRIX_HEIGHT - gif.getCanvasHeight()) / 2;
+  if (y_offset < 0)
+    y_offset = 0;
+
+  return result;
+}
+
 void ShowGIF(char *name)
 {
-  start_tick = millis();
-   
-  if (gif.open(name, GIFOpenFile, GIFCloseFile, GIFReadFile, GIFSeekFile, GIFDraw))
+  if (!gifPlaying)
   {
-    x_offset = (MATRIX_WIDTH - gif.getCanvasWidth())/2;
-    if (x_offset < 0) x_offset = 0;
-    y_offset = (MATRIX_HEIGHT - gif.getCanvasHeight())/2;
-    if (y_offset < 0) y_offset = 0;
-    Serial.printf("Successfully opened GIF; Canvas size = %d x %d\n", gif.getCanvasWidth(), gif.getCanvasHeight());
-    Serial.flush();
 
-while (gif.playFrame(true, NULL))
-    {      
-      if ( (millis() - start_tick) > 8000) { // we'll get bored after about 8 seconds of the same looping gif
-        break;
-      }
-    }
+    // isBusy
 
+    LoadGIF(name);
+    gifPlaying = true;
+    interruptGif = false;
+  }
+
+  if (interruptGif && gifPlaying)
+  {
+    gifPlaying = interruptGif = false;
     gif.close();
+    return;
+  }
+
+  lastResult = gif.playFrame(true, NULL);
+
+  // Some GIFS return -1 even when there are no errors?
+  // TODO: Find out why
+
+  if (lastResult < 1 && allowNextGif)
+  {
+    gif.close();
+    gifPlaying = false;
   }
 
 } /* ShowGIF() */

@@ -5,6 +5,7 @@
 #include "Globals.h"
 #include "components/gif/MatrixGif.hpp"
 #include "components/gif/GifLoader.hpp"
+#include "components/gif/GifPlayer.hpp"
 
 #define PANEL_RES_X 64      // Number of pixels wide of each INDIVIDUAL panel module. 
 #define PANEL_RES_Y 32     // Number of pixels tall of each INDIVIDUAL panel module.
@@ -36,7 +37,6 @@ frame_status_t target_state = STARTUP;
 frame_status_t lastState = frame_state;
 unsigned long lastStateChange = 0;
 
-/************************* Arduino Sketch Setup and Loop() *******************************/
 void setup() {
 
 //
@@ -75,6 +75,8 @@ dma_display->begin();
   dma_display->fillScreen(dma_display->color565(0, 0, 0));
 
   InitMatrixGif();
+
+  
 }
 
 // void handleGif()
@@ -112,8 +114,10 @@ dma_display->begin();
 //       } // root
 // }
 
+
 void loop() 
 {
-     handleGifQueue();
+    handleGifQueue();
+    handleGif();
       
 }

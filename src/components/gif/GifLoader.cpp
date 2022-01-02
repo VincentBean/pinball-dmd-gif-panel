@@ -41,12 +41,12 @@ void populateGifQueue()
 
     // if (config.loadStrategy == SEQUENTIAL)
     // {
-        // loadedFile = sequentialGifLoader.loadNextFile();
+       // loadedFile = sequentialGifLoader.loadNextFile();
     // }
 
     // if (config.loadStrategy == INDEXED)
     // {
-        loadedFile = indexedGifLoader.loadNextFile();
+     loadedFile = indexedGifLoader.loadNextFile();
     // }
 
     if (loadedFile == "")
@@ -70,7 +70,8 @@ void handleGifQueue()
     // }
 
     if (!sd.exists(GIF_DIR)) {     
-         Serial.println("GIF directory does not exists");   
+         Serial.println("GIF directory does not exists"); 
+         return;
         // TODO: Show error on display ?
     }
 

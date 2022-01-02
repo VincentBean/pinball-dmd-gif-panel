@@ -44,22 +44,32 @@ String getValue(String data, char separator, int index)
     return found > index ? data.substring(strIndex[0], strIndex[1]) : "";
 }
 
-std::vector<String> Indexed::readIndexFile(FsFile *indexFile)
+std::vector<String> Indexed::readIndexFile(String indexFileName)
 {
-    std::vector<String> files;
-    String content = indexFile->readString();
-    String line = "";
+    FsFile indexFile = sd.open(indexFileName, O_RDONLY);
 
-    for (int i = 0; i < INDEX_SIZE; i++)
+    indexFile.printFileSize(&Serial);
+    indexFile.printName(&Serial);
+
+    std::vector<String> files;
+
+    char line[256];
+
+    indexFile.rewind();
+
+    while (indexFile.available())
     {
-        line = getValue(content, '\n', i);
-        if (line == "")
-        {
+        int n = indexFile.fgets(line, sizeof(line));
+
+        // no content or line too long
+        if (n <= 0 || (line[n-1] != '\n' && n == (sizeof(line) - 1))) {
             break;
         }
 
-        files.push_back(line);
-    }
+        files.push_back( String(line));
+    }    
+
+    indexFile.close();
 
     return files;
 }
@@ -80,9 +90,7 @@ String Indexed::loadNextFile()
 
     int index = random(0, indexes.size());
 
-    FsFile indexFile = sd.open(indexes.at(index));
-
-    std::vector<String> files = readIndexFile(&indexFile);
+    std::vector<String> files = readIndexFile(indexes.at(index));
 
     if (files.size() == 0)
         return "";
@@ -92,9 +100,7 @@ String Indexed::loadNextFile()
     f.trim();
     f.replace("\n", "");
 
-    indexFile.close();
-
-    return f;
+    return String(GIF_DIR) + String("/") + f;
 }
 
 void Indexed::writeIndex()
@@ -148,7 +154,7 @@ void Indexed::loadIndexes()
         char name[256];
         indexFile.getName(name, 256);
 
-        indexes.push_back(String(name));
+        indexes.push_back(String(INDEX_DIRECTORY) + "/" + String(name));
 
         indexFile.close();
     }
@@ -174,7 +180,7 @@ void Indexed::index()
         indexing = true;
         total_files = 0;
         indexFiles.clear();
-        
+
         while (!directories.empty())
             directories.pop();
     }

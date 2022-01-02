@@ -97,22 +97,13 @@ void GIFDraw(GIFDRAW *pDraw)
 
 void * GIFOpenFile(const char *fname, int32_t *pSize)
 {
-  Serial.print("Playing gif: ");
-  Serial.println(fname);
   f = sd.open(fname);
-
-  Serial.print("Size: ");
-  f.printName(&Serial);
-  f.printFileSize(&Serial);
-  f.printModifyDateTime(&Serial);
-  f.printCreateDateTime(&Serial);
   
   if (f)
   {
     *pSize = f.size();
     return (void *)&f;
   }
-  Serial.println("FAILED to open");
   return NULL;
 } /* GIFOpenFile() */
 
@@ -151,31 +142,6 @@ int32_t GIFSeekFile(GIFFILE *pFile, int32_t iPosition)
 
 unsigned long start_tick = 0;
 
-// void ShowGIF(char *name)
-// {
-//   start_tick = millis();
-   
-//   if (gif.open(name, GIFOpenFile, GIFCloseFile, GIFReadFile, GIFSeekFile, GIFDraw))
-//   {
-//     x_offset = (MATRIX_WIDTH - gif.getCanvasWidth())/2;
-//     if (x_offset < 0) x_offset = 0;
-//     y_offset = (MATRIX_HEIGHT - gif.getCanvasHeight())/2;
-//     if (y_offset < 0) y_offset = 0;
-//     Serial.printf("Successfully opened GIF; Canvas size = %d x %d\n", gif.getCanvasWidth(), gif.getCanvasHeight());
-//     Serial.flush();
-
-// while (gif.playFrame(true, NULL))
-//     {      
-//       if ( (millis() - start_tick) > 8000) { // we'll get bored after about 8 seconds of the same looping gif
-//         break;
-//       }
-//     }
-
-//     gif.close();
-//   }
-
-// } /* ShowGIF() */
-
 int LoadGIF(char *name)
 {
   int result = gif.open(name, GIFOpenFile, GIFCloseFile, GIFReadFile, GIFSeekFile, GIFDraw);
@@ -195,7 +161,6 @@ void ShowGIF(char *name)
 {
   if (!gifPlaying)
   {
-
     // isBusy
 
     LoadGIF(name);
@@ -212,13 +177,12 @@ void ShowGIF(char *name)
 
   lastResult = gif.playFrame(true, NULL);
 
-  // Some GIFS return -1 even when there are no errors?
-  // TODO: Find out why
-
   if (lastResult < 1 && allowNextGif)
   {
     gif.close();
     gifPlaying = false;
+    target_state = SHOW_TIME;
+
   }
 
 } /* ShowGIF() */

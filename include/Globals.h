@@ -25,8 +25,7 @@ typedef enum {
     
     // Add new states above this, higher states than this cannot be set by the API!
 
-    OTA_UPDATE,
-    ERROR
+    OTA_UPDATE
 
 } frame_status_t;
 

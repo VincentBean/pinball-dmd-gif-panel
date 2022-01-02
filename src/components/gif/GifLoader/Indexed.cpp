@@ -7,21 +7,7 @@ String Indexed::generateIndexFilename(int index = 0)
 
 bool Indexed::indexingRequired()
 {
-    String name = generateIndexFilename();
-
-    bool required = !sd.exists(name);
-
-    Serial.println("Checking if indexing is required");
-
-    Serial.print(name);
-
-    if (required) {
-        Serial.println(" YES");
-    } else {
-        Serial.println(" NO");
-    }
-
-    return required;
+    return !sd.exists(generateIndexFilename());
 }
 
 // https://stackoverflow.com/questions/9072320/split-string-into-string-array

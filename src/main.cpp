@@ -38,11 +38,11 @@ void setup()
 
   InitMatrix();
 
-  message("Init SD", true);
+  message("Init sd", true);
 
   InitSdCard();
 
-  message("Init GIF", true);
+  message("Init Gif", true);
 
   // xTaskCreatePinnedToCore(
   //     handleScheduled, /* Function to implement the task */
@@ -55,7 +55,7 @@ void setup()
 
   InitMatrixGif();
 
-  message("Init WiFi", true);
+  message("Init Wifi", true);
 
   setupWifi();
 

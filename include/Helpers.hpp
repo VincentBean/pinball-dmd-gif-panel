@@ -4,6 +4,9 @@
 #include <Arduino.h>
 #include "Globals.h"
 
+void bigFont();
+void smallFont();
+
 void clearMatrix();
 
 // Quick and easy printing of text on the matrix

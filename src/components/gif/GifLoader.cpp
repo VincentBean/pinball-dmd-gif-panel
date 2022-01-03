@@ -54,9 +54,6 @@ void populateGifQueue()
         return;
     }
 
-    Serial.print("Loaded file ");
-    Serial.println(loadedFile);
-
     gif_queue.push(loadedFile);
 }
 

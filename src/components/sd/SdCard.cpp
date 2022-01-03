@@ -1,4 +1,5 @@
 #include <SdFat.h>
+#include "Helpers.hpp"
 
 const uint8_t SD_CS_PIN = 22;
 const uint8_t SOFT_MISO_PIN = 32;
@@ -42,7 +43,7 @@ void InitSdCard()
   if (!sd.begin(SD_CONFIG))
   {
     sd.initErrorHalt();
-    Serial.println("SD Mount Failed");
+    message("SD fail", true);
     return;
   }
 

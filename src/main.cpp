@@ -3,7 +3,7 @@
 #include <AnimatedGIF.h>
 #include <ESP32-HUB75-MatrixPanel-I2S-DMA.h>
 #include "Globals.h"
-#include "Helpers.h"
+#include "Helpers.hpp"
 #include "components/matrix/Matrix.hpp"
 #include "components/gif/MatrixGif.hpp"
 #include "components/gif/GifLoader.hpp"

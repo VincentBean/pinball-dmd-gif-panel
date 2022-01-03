@@ -1,17 +1,5 @@
-#pragma once
-
 #include <Arduino.h>
 #include "Globals.h"
-
-void message(String message, bool onDisplay = false)
-{
-    Serial.println(message);
-
-    if (onDisplay) {
-        printOnMatrix(message);
-    }
-
-}
 
 void clearMatrix()
 {
@@ -29,4 +17,14 @@ void printOnMatrix(String message, uint16_t color = dma_display->color565(0, 255
     dma_display->setTextColor(color);
 
     dma_display->println(message);
+}
+
+void message(String message, bool onDisplay = false)
+{
+    Serial.println(message);
+
+    if (onDisplay) {
+        printOnMatrix(message);
+    }
+
 }

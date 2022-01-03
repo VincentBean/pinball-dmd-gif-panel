@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include <ezTime.h>
 #include "Globals.h"
-#include "Helpers.h"
+#include "Helpers.hpp"
 
 void setupClock()
 {

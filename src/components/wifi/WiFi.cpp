@@ -1,6 +1,6 @@
 #include <WiFiManager.h>
 #include "Globals.h"
-#include "Helpers.h"
+#include "Helpers.hpp"
 
 WiFiManager wifiManager;
 

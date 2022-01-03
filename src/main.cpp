@@ -10,6 +10,7 @@
 #include "components/gif/GifPlayer.hpp"
 #include "components/wifi/WiFi.hpp"
 #include "components/clock/Clock.hpp"
+#include "components/sd/SdCard.hpp"
 
 frame_status_t frame_state = STARTUP;
 frame_status_t target_state = STARTUP;
@@ -36,6 +37,10 @@ void setup()
   message("Initializing");
 
   InitMatrix();
+
+  message("Init SD", true);
+
+  InitSdCard();
 
   message("Init GIF", true);
 

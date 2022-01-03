@@ -4,11 +4,13 @@ FsFile root;
 FsFile curFile;
 String curDirectory;
 
+
+
 String Sequential::loadNextFile()
 {
 
     if (!root && !directories.empty())
-    {
+    {        
         root = sd.open(directories.top());
         curDirectory = curDirectory + "/" + directories.top();
         directories.pop();
@@ -20,8 +22,8 @@ String Sequential::loadNextFile()
     }
 
     if (!root)
-    {
-        root = sd.open("/gifs");
+    {        
+        root = sd.open("/gifs");     
         curDirectory = "/gifs";
 
         if (!root)

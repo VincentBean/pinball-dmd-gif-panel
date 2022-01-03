@@ -26,8 +26,7 @@ void InitMatrix()
   dma_display->begin();
   dma_display->setBrightness8(90); // 0-255
   dma_display->clearScreen();
-
-
+  
   dma_display->begin();
 
   dma_display->fillScreen(dma_display->color565(0, 0, 0));

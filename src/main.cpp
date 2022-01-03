@@ -3,26 +3,13 @@
 #include <AnimatedGIF.h>
 #include <ESP32-HUB75-MatrixPanel-I2S-DMA.h>
 #include "Globals.h"
+#include "Helpers.h"
 #include "components/matrix/Matrix.hpp"
 #include "components/gif/MatrixGif.hpp"
 #include "components/gif/GifLoader.hpp"
 #include "components/gif/GifPlayer.hpp"
 #include "components/wifi/WiFi.hpp"
 #include "components/clock/Clock.hpp"
-
-const uint8_t SD_CS_PIN = 22;
-const uint8_t SOFT_MISO_PIN = 32;
-const uint8_t SOFT_MOSI_PIN = 21;
-const uint8_t SOFT_SCK_PIN = 33;
-
-SoftSpiDriver<SOFT_MISO_PIN, SOFT_MOSI_PIN, SOFT_SCK_PIN> softSpi;
-#define SD_CONFIG SdSpiConfig(SD_CS_PIN, DEDICATED_SPI, SD_SCK_MHZ(0), &softSpi)
-
-SdFs sd;
-
-String gifDir = "/gifs"; // play all GIFs in this directory on the SD card
-char filePath[256] = {0};
-FsFile gifFile;
 
 frame_status_t frame_state = STARTUP;
 frame_status_t target_state = STARTUP;
@@ -46,16 +33,11 @@ void setup()
 {
   Serial.begin(115200);
 
+  message("Initializing");
+
   InitMatrix();
 
-  // Start filesystem
-  Serial.println(" * Loading SD");
-  if (!sd.begin(SD_CONFIG))
-  {
-    sd.initErrorHalt();
-    Serial.println("SD Mount Failed");
-    return;
-  }
+  message("Init GIF", true);
 
   // xTaskCreatePinnedToCore(
   //     handleScheduled, /* Function to implement the task */
@@ -68,7 +50,11 @@ void setup()
 
   InitMatrixGif();
 
+  message("Init WiFi", true);
+
   setupWifi();
+
+  message("Init Clock", true);
 
   setupClock();
 }

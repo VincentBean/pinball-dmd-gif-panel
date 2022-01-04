@@ -22,15 +22,16 @@ void loadSettings()
   DeserializationError error = deserializeJson(doc, configFile);
   if (error)
   {
-    message("Default config", true);
+    message("Default config");
     delay(500);  
   }
-  Serial.println(configFile.readString());
+  
   config.brightness = doc[BRIGHTNESS_KEY] | 80;
   config.timeZone = String(doc[TIMEZONE_KEY] | "Europe/Amsterdam");
 
   config.loadStrategy = doc[GIF_LOAD_STRATEGY_KEY] | INDEXED;
 
+  if (configFile)
   configFile.close();
 }
 

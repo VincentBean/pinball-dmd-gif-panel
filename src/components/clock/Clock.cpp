@@ -10,7 +10,7 @@ void setupClock()
     message("Syncing clock", true);
     waitForSync();
 
-	timezone.setLocation(F("Europe/Amsterdam"));
+	timezone.setLocation(config.timeZone);
 
     delay(2000);
 

@@ -4,6 +4,7 @@
 #include <ESP32-HUB75-MatrixPanel-I2S-DMA.h>
 #include "Globals.h"
 #include "Helpers.hpp"
+#include "components/config/Configuration.hpp"
 #include "components/matrix/Matrix.hpp"
 #include "components/gif/MatrixGif.hpp"
 #include "components/gif/GifLoader.hpp"
@@ -33,6 +34,8 @@ void handleScheduled(void *param)
 void setup()
 {
   Serial.begin(115200);
+
+  loadSettings();
 
   message("Initializing");
 

@@ -16,7 +16,6 @@ void InitMatrix()
   );
 
   mxconfig.gpio.e = 18;
-  // mxconfig
   mxconfig.clkphase = false;
   mxconfig.latch_blanking = 4;
   mxconfig.i2sspeed = HUB75_I2S_CFG::HZ_10M;
@@ -24,7 +23,7 @@ void InitMatrix()
   // Display Setup
   dma_display = new MatrixPanel_I2S_DMA(mxconfig);
   dma_display->begin();
-  dma_display->setBrightness8(90); // 0-255
+  dma_display->setBrightness8(config.brightness);
   dma_display->clearScreen();
   
   dma_display->begin();

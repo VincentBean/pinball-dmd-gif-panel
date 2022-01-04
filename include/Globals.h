@@ -3,6 +3,7 @@
 
 #include <SdFat.h>
 #include <ESP32-HUB75-MatrixPanel-I2S-DMA.h>
+#include "components/config/Configuration.hpp"
 
 #define GIF_DIR "/gifs"
 
@@ -31,6 +32,8 @@ typedef enum {
 
 extern MatrixPanel_I2S_DMA *dma_display;
 extern SdFs sd;
+
+extern Config config;
 
 extern frame_status_t target_state;
 extern unsigned long lastStateChange;

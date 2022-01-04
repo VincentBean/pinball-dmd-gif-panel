@@ -1,6 +1,7 @@
 #include <queue>
 #include <stack>
 #include "Globals.h"
+#include "Helpers.hpp"
 #include "components/gif/GifLoader.hpp"
 #include "components/gif/GifLoader/Loader.hpp"
 #include "components/gif/GifLoader/Sequential.hpp"
@@ -39,15 +40,15 @@ void populateGifQueue()
 {
     String loadedFile = sequentialGifLoader.loadNextFile();
 
-    // if (config.loadStrategy == SEQUENTIAL)
-    // {
-      //  loadedFile = sequentialGifLoader.loadNextFile();
-    // }
+    if (config.loadStrategy == SEQUENTIAL)
+    {
+        loadedFile = sequentialGifLoader.loadNextFile();
+    }
 
-    // if (config.loadStrategy == INDEXED)
-    // {
-     loadedFile = indexedGifLoader.loadNextFile();
-    // }
+    if (config.loadStrategy == INDEXED)
+    {
+        loadedFile = indexedGifLoader.loadNextFile();
+    }
 
     if (loadedFile == "")
     {
@@ -59,18 +60,10 @@ void populateGifQueue()
 
 void handleGifQueue()
 {
-    // if (sd_state != MOUNTED)
-    // {
-    //     Serial.println("Not mounted");
-    //     resetGifLoader();
-    //     return;
-    // }
-
-    //if (!sd.exists(GIF_DIR)) {     
-     //    Serial.println("GIF directory does not exists"); 
-       //  return;
-        // TODO: Show error on display ?
-    //}
+    if (!sd.exists(GIF_DIR)) {     
+        message("GIF dir missing", true);
+        return;
+    }
 
     if (gif_queue.size() <= (MAX_QUEUED_GIFS - 5))
     {

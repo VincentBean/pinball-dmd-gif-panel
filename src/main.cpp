@@ -12,6 +12,7 @@
 #include "components/wifi/WiFi.hpp"
 #include "components/clock/Clock.hpp"
 #include "components/sd/SdCard.hpp"
+#include "components/wifi/Webserver.hpp"
 
 frame_status_t frame_state = STARTUP;
 frame_status_t target_state = STARTUP;
@@ -65,6 +66,8 @@ void setup()
   message("Init Clock", true);
 
   setupClock();
+
+  InitWebserver();
 }
 
 bool targetStateValid()
@@ -100,5 +103,7 @@ void loop()
   {
     handleClock();
   }
+
+  handleWebserver();
 
 }

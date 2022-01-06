@@ -32,7 +32,7 @@ void loadSettings()
   config.loadStrategy = doc[GIF_LOAD_STRATEGY_KEY] | INDEXED;
 
   if (configFile)
-  configFile.close();
+    configFile.close();
 }
 
 void saveSettings()

@@ -12,6 +12,7 @@
 #include "components/wifi/WiFi.hpp"
 #include "components/clock/Clock.hpp"
 #include "components/sd/SdCard.hpp"
+#include "components/wifi/Webserver.hpp"
 
 frame_status_t frame_state = STARTUP;
 frame_status_t target_state = STARTUP;
@@ -35,8 +36,6 @@ void setup()
 {
   Serial.begin(115200);
 
-  loadSettings();
-
   message("Initializing");
 
   InitMatrix();
@@ -44,6 +43,8 @@ void setup()
   message("Init sd", true);
 
   InitSdCard();
+
+  loadSettings();
 
   message("Init Gif", true);
 
@@ -65,6 +66,8 @@ void setup()
   message("Init Clock", true);
 
   setupClock();
+
+  InitWebserver();
 }
 
 bool targetStateValid()
@@ -85,8 +88,8 @@ void loop()
     frame_state = target_state;
     lastStateChange = millis();
 
-    Serial.print("new state: ");
-    Serial.println(frame_state);
+    // Serial.print("new state: ");
+    // Serial.println(frame_state);
   }
 
   handleGifQueue();
@@ -101,4 +104,11 @@ void loop()
     handleClock();
   }
 
+  handleWebserver();
+
+  if (saveConfig && !gifPlaying && frame_state != INDEXING) {
+    saveSettings();
+    saveConfig = false;
+    Serial.println("Writing config");
+  }
 }

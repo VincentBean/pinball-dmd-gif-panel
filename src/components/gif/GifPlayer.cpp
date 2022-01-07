@@ -10,7 +10,7 @@ bool autoPlay = true;
 bool allowNextGif = true;
 
 unsigned long gifStart = 0;
-int minPlaytime = 4000; // TODO: Make configurable
+int minPlaytime = 2000; // TODO: Make configurable
 String current_gif;
 int currentGifIndex = 0;
 

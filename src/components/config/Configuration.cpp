@@ -8,10 +8,16 @@
 #define CONFIG_SIZE 512
 
 Config config;
+bool saveConfig;
 
 #define BRIGHTNESS_KEY "brightness"
 #define GIF_LOAD_STRATEGY_KEY "gif_load_strategy"
 #define TIMEZONE_KEY "timezone"
+
+void applySettings()
+{
+  dma_display->setBrightness8(config.brightness);
+}
 
 void loadSettings()
 {
@@ -28,11 +34,15 @@ void loadSettings()
   
   config.brightness = doc[BRIGHTNESS_KEY] | 80;
   config.timeZone = String(doc[TIMEZONE_KEY] | "Europe/Amsterdam");
-
+  
   config.loadStrategy = doc[GIF_LOAD_STRATEGY_KEY] | INDEXED;
 
-  if (configFile)
-  configFile.close();
+  if (configFile) 
+  {
+    configFile.close();
+  }
+
+  applySettings();  
 }
 
 void saveSettings()

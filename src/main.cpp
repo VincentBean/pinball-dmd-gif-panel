@@ -36,8 +36,6 @@ void setup()
 {
   Serial.begin(115200);
 
-  loadSettings();
-
   message("Initializing");
 
   InitMatrix();
@@ -45,6 +43,8 @@ void setup()
   message("Init sd", true);
 
   InitSdCard();
+
+  loadSettings();
 
   message("Init Gif", true);
 
@@ -88,8 +88,8 @@ void loop()
     frame_state = target_state;
     lastStateChange = millis();
 
-    Serial.print("new state: ");
-    Serial.println(frame_state);
+    // Serial.print("new state: ");
+    // Serial.println(frame_state);
   }
 
   handleGifQueue();
@@ -106,4 +106,9 @@ void loop()
 
   handleWebserver();
 
+  if (saveConfig && !gifPlaying && frame_state != INDEXING) {
+    saveSettings();
+    saveConfig = false;
+    Serial.println("Writing config");
+  }
 }

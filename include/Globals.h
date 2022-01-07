@@ -34,6 +34,7 @@ extern MatrixPanel_I2S_DMA *dma_display;
 extern SdFs sd;
 
 extern Config config;
+extern bool saveConfig;
 
 extern frame_status_t target_state;
 extern unsigned long lastStateChange;

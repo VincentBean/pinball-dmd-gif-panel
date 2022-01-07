@@ -7,6 +7,7 @@ WiFiManager wifiManager;
 void configModeCallback (WiFiManager *myWiFiManager) {
     String ssid = myWiFiManager->getConfigPortalSSID();
 
+    smallFont();
     message("WiFi Setup\nSSID: " + ssid, true);
 }
 

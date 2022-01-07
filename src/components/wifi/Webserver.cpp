@@ -40,8 +40,7 @@ void InitWebserver()
                    }
 
                    config.brightness = value;
-                   saveSettings();
-                   dma_display->setBrightness8(config.brightness);
+                   saveConfig = true;
 
                    request->send(200, "text/plain", String(config.brightness));
                });
@@ -62,7 +61,7 @@ void InitWebserver()
                    String value = request->getParam("value")->value();
 
                    config.timeZone = value;
-                   saveSettings();
+                   saveConfig = true;
 
                    request->send(200, "text/plain", String(config.timeZone));
                });

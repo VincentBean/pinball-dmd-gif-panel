@@ -34,9 +34,6 @@ std::vector<String> Indexed::readIndexFile(String indexFileName)
 {
     FsFile indexFile = sd.open(indexFileName, O_RDONLY);
 
-    indexFile.printFileSize(&Serial);
-    indexFile.printName(&Serial);
-
     std::vector<String> files;
 
     char line[256];
@@ -85,7 +82,7 @@ String Indexed::loadNextFile()
     String f = files.at(randomFile);
     f.trim();
     f.replace("\n", "");
-
+    
     return String(GIF_DIR) + String("/") + f;
 }
 
@@ -154,6 +151,7 @@ void Indexed::index()
 
     if (!curDirectory)
     {
+        Serial.println("Starting to index");
         curDirectory = sd.open(GIF_DIR);
 
         if (sd.exists(INDEX_DIRECTORY))
@@ -218,6 +216,11 @@ void Indexed::index()
     indexFiles.push_back(nextFileName);
     total_files++;
     nextFile.close();
+
+    if (total_files % 100 == 0) {
+        Serial.print("Indexed files: ");
+        Serial.println(total_files);
+    }
 
     if (indexFiles.size() >= INDEX_SIZE)
     {

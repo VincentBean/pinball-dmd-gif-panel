@@ -7,16 +7,17 @@ Timezone timezone;
 
 void setupClock()
 {
+    setDebug(INFO);
+    setServer("10.0.0.4");
     message("Syncing clock", true);
+    
     waitForSync();
-
-	timezone.setLocation(config.timeZone);
-
-    delay(2000);
-
+    
     message("Clock synced!", true);
 
-    delay(1000);
+	timezone.setLocation(config.timeZone);
+    
+    message("Timezone set", true);
 }
 
 void handleClock()

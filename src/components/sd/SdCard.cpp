@@ -15,10 +15,10 @@ void InitSdCard()
 {
   if (!sd.begin(SD_CONFIG))
   {
-    sd.initErrorHalt();
+    smallFont();
     message("SD fail", true);
-    return;
-  }
+    delay(1000);
 
-  Serial.println("SD mounted!");
+    ESP.restart();
+  }
 }

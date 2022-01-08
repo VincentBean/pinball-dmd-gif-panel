@@ -17,7 +17,7 @@ typedef enum {
 
 } load_strategy_t;
 
-
+void InitLoader();
 bool queueEmpty();
 void countTotalFiles();
 void handleGifQueue();

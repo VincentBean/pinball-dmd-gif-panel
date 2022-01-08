@@ -14,23 +14,12 @@
 #include "components/sd/SdCard.hpp"
 #include "components/wifi/Webserver.hpp"
 
-frame_status_t frame_state = STARTUP;
-frame_status_t target_state = STARTUP;
+frame_status_t frame_state = PLAYING_ART;
+frame_status_t target_state = PLAYING_ART;
 frame_status_t lastState = frame_state;
 unsigned long lastStateChange = 0;
 
 TaskHandle_t scheduled_task;
-
-void handleScheduled(void *param)
-{
-
-  for (;;)
-  {
-    handleGifQueue();
-
-    vTaskDelay(1 / portTICK_PERIOD_MS); // https://github.com/espressif/esp-idf/issues/1646#issue-299097720
-  }
-}
 
 void setup()
 {
@@ -40,34 +29,33 @@ void setup()
 
   InitMatrix();
 
+  message("Init Gif", true);
+
+  InitMatrixGif();
+
   message("Init sd", true);
 
   InitSdCard();
 
+  message("Load settings", true);
+
   loadSettings();
 
-  message("Init Gif", true);
+  message("Init loader", true);
 
-  // xTaskCreatePinnedToCore(
-  //     handleScheduled, /* Function to implement the task */
-  //     "schedule",      /* Name of the task */
-  //     10000,           /* Stack size in words */
-  //     NULL,            /* Task input parameter */
-  //     0,               /* Priority of the task */
-  //     &scheduled_task, /* Task handle. */
-  //     0);              /* Core where the task should run */
-
-  InitMatrixGif();
+  InitLoader();
 
   message("Init Wifi", true);
 
   setupWifi();
 
+  message("Init api", true);
+
+  InitWebserver();
+
   message("Init Clock", true);
 
   setupClock();
-
-  InitWebserver();
 }
 
 bool targetStateValid()
@@ -80,7 +68,6 @@ bool targetStateValid()
   return true;
 }
 
-
 void loop()
 {
   if (!gifPlaying && target_state != frame_state && targetStateValid())
@@ -88,13 +75,13 @@ void loop()
     frame_state = target_state;
     lastStateChange = millis();
 
-    // Serial.print("new state: ");
-    // Serial.println(frame_state);
+    Serial.print("new state: ");
+    Serial.println(frame_state);
   }
 
   handleGifQueue();
 
-  if (frame_state == STARTUP || frame_state == PLAYING_ART)
+  if (frame_state == PLAYING_ART)
   {
     handleGif();
   }
@@ -106,7 +93,8 @@ void loop()
 
   handleWebserver();
 
-  if (saveConfig && !gifPlaying && frame_state != INDEXING) {
+  if (saveConfig && !gifPlaying && frame_state != INDEXING)
+  {
     saveSettings();
     saveConfig = false;
     Serial.println("Writing config");

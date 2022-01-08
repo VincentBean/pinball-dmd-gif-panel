@@ -4,8 +4,6 @@ FsFile root;
 FsFile curFile;
 String curDirectory;
 
-
-
 String Sequential::loadNextFile()
 {
 

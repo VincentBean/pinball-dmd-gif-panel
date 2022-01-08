@@ -11,6 +11,7 @@
 
 Sequential sequentialGifLoader;
 Indexed indexedGifLoader;
+load_strategy_t loadStrategy = INDEXED;;
 
 std::queue<String> gif_queue;
 bool queue_populate_requred = true;
@@ -18,6 +19,16 @@ bool queue_populate_requred = true;
 unsigned long total_files = 0;
 
 std::stack<FsFile> directories;
+
+void InitLoader()
+{
+    // if (indexedGifLoader.indexFileExists()) {
+    //     message("Indexed");
+    //     loadStrategy = INDEXED;
+    // } else {
+    //     message("Sequential");
+    // }
+}
 
 bool queueEmpty()
 {
@@ -40,12 +51,12 @@ void populateGifQueue()
 {
     String loadedFile = sequentialGifLoader.loadNextFile();
 
-    if (config.loadStrategy == SEQUENTIAL)
+    if (loadStrategy == SEQUENTIAL)
     {
         loadedFile = sequentialGifLoader.loadNextFile();
     }
 
-    if (config.loadStrategy == INDEXED)
+    if (loadStrategy == INDEXED)
     {
         loadedFile = indexedGifLoader.loadNextFile();
     }
@@ -60,11 +71,6 @@ void populateGifQueue()
 
 void handleGifQueue()
 {
-    if (!sd.exists(GIF_DIR)) {     
-        message("GIF dir missing", true);
-        return;
-    }
-
     if (gif_queue.size() <= (MAX_QUEUED_GIFS - 5))
     {
         queue_populate_requred = true;

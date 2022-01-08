@@ -36,6 +36,7 @@ void loadSettings()
   config.timeZone = String(doc[TIMEZONE_KEY] | "Europe/Amsterdam");
   
   config.loadStrategy = doc[GIF_LOAD_STRATEGY_KEY] | INDEXED;
+  //config.loadStrategy = doc[GIF_LOAD_STRATEGY_KEY] | SEQUENTIAL;
 
   if (configFile) 
   {

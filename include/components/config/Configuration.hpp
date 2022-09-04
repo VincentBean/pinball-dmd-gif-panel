@@ -4,6 +4,7 @@
 
 struct Config
 {
+  bool clockEnabled;
   int brightness;
   load_strategy_t loadStrategy;
   String timeZone;

@@ -10,6 +10,7 @@
 Config config;
 bool saveConfig;
 
+#define CLOCK_ENABLED_KEY "clock_enabled"
 #define BRIGHTNESS_KEY "brightness"
 #define GIF_LOAD_STRATEGY_KEY "gif_load_strategy"
 #define TIMEZONE_KEY "timezone"
@@ -28,15 +29,15 @@ void loadSettings()
   DeserializationError error = deserializeJson(doc, configFile);
   if (error)
   {
-    message("Default config");
+    Serial.println("Using default configuration");
     delay(500);  
   }
   
+  config.clockEnabled = doc[CLOCK_ENABLED_KEY] | false;
   config.brightness = doc[BRIGHTNESS_KEY] | 80;
   config.timeZone = String(doc[TIMEZONE_KEY] | "Europe/Amsterdam");
   
-  config.loadStrategy = doc[GIF_LOAD_STRATEGY_KEY] | INDEXED;
-  //config.loadStrategy = doc[GIF_LOAD_STRATEGY_KEY] | SEQUENTIAL;
+  config.loadStrategy = doc[GIF_LOAD_STRATEGY_KEY] | SEQUENTIAL;
 
   if (configFile) 
   {
@@ -44,6 +45,7 @@ void loadSettings()
   }
 
   applySettings();  
+  saveSettings();
 }
 
 void saveSettings()

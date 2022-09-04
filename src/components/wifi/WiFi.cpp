@@ -8,18 +8,25 @@ void configModeCallback (WiFiManager *myWiFiManager) {
     String ssid = myWiFiManager->getConfigPortalSSID();
 
     smallFont();
-    message("WiFi Setup\nSSID: " + ssid, true);
+    message("WiFi Setup", true);
 }
 
 void setupWifi()
 {
+    if (!config.clockEnabled) {
+        return;
+    }
+
     WiFi.mode(WIFI_STA);
     
     wifiManager.setAPCallback(configModeCallback);
-    wifiManager.autoConnect("DMD Clock");
-}
+    wifiManager.setConfigPortalTimeout(180);
 
-void handleWifi()
-{
+    wifiManager.setClass("invert");
+    wifiManager.setScanDispPerc(true);
 
+    wifiManager.setConnectRetries(10);
+    wifiManager.setConnectTimeout(60);
+
+    wifiManager.autoConnect("PinClock");
 }

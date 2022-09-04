@@ -182,7 +182,6 @@ void ShowGIF(char *name)
     gif.close();
     gifPlaying = false;
     target_state = SHOW_TIME;
-
   }
 
 } /* ShowGIF() */

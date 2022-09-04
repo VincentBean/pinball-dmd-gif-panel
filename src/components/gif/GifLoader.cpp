@@ -1,5 +1,6 @@
 #include <queue>
 #include <stack>
+#include <algorithm>
 #include "Globals.h"
 #include "Helpers.hpp"
 #include "components/gif/GifLoader.hpp"
@@ -8,6 +9,7 @@
 #include "components/gif/GifLoader/Indexed.hpp"
 
 #define MAX_QUEUED_GIFS 32
+#define PREVIOUS_GIFS_TRACK_COUNT 10
 
 Sequential sequentialGifLoader;
 Indexed indexedGifLoader;
@@ -20,14 +22,13 @@ unsigned long total_files = 0;
 
 std::stack<FsFile> directories;
 
+std::vector<String> previous;
+
 void InitLoader()
 {
-    // if (indexedGifLoader.indexFileExists()) {
-    //     message("Indexed");
-    //     loadStrategy = INDEXED;
-    // } else {
-    //     message("Sequential");
-    // }
+    if (indexedGifLoader.indexFileExists() && loadStrategy != INDEXED) {
+        loadStrategy = INDEXED;
+    }
 }
 
 bool queueEmpty()
@@ -61,7 +62,7 @@ void populateGifQueue()
         loadedFile = indexedGifLoader.loadNextFile();
     }
 
-    if (loadedFile == "")
+    if (loadedFile == "" || std::find(previous.begin(), previous.end(), loadedFile) != previous.end())
     {
         return;
     }
@@ -89,6 +90,12 @@ String getNextGif()
 {
     String gif = gif_queue.front();
     gif_queue.pop();
+
+    previous.push_back(gif);
+
+    if (previous.size() > PREVIOUS_GIFS_TRACK_COUNT) {
+        previous.erase(previous.begin());
+    }
 
     return gif;
 }

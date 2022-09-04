@@ -3,6 +3,7 @@
 #include "Globals.h"
 #include "components/gif/MatrixGif.hpp"
 #include "components/gif/GifLoader.hpp"
+#include "Helpers.hpp"
 
 #define DEFAULT_GIF "boot.gif"
 
@@ -32,9 +33,7 @@ void handleGif()
 {
     if (queueEmpty() && !gifPlaying)
     {
-        // TODO: Add placeholder GIF
-        // ShowGIF(LOGO_GIF, true);
-        Serial.println("Queue empty");
+        message("No GIFs", true);
         return;
     }
 

@@ -7,9 +7,13 @@ Timezone timezone;
 
 void setupClock()
 {
+    if (!config.clockEnabled) {
+        return;
+    }
+
     setDebug(INFO);
-    setServer("10.0.0.4");
-    message("Syncing clock", true);
+    setServer();
+    message("Syncing clock");
     
     waitForSync();
     
@@ -17,11 +21,15 @@ void setupClock()
 
 	timezone.setLocation(config.timeZone);
     
-    message("Timezone set", true);
+    message("Timezone set");
 }
 
 void handleClock()
 {
+    if (!config.clockEnabled) {
+        return;
+    }
+
     events();
     
     bigFont();

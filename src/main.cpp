@@ -25,35 +25,19 @@ void setup()
 {
   Serial.begin(115200);
 
-  message("Initializing");
-
   InitMatrix();
-
-  message("Init Gif", true);
 
   InitMatrixGif();
 
-  message("Init sd", true);
-
   InitSdCard();
-
-  message("Load settings", true);
 
   loadSettings();
 
-  message("Init loader", true);
-
   InitLoader();
-
-  message("Init Wifi", true);
 
   setupWifi();
 
-  message("Init api", true);
-
   InitWebserver();
-
-  message("Init Clock", true);
 
   setupClock();
 }
@@ -61,6 +45,11 @@ void setup()
 bool targetStateValid()
 {
   if (frame_state == INDEXING && target_state != PLAYING_ART)
+  {
+    return false;
+  }
+
+  if (target_state == SHOW_TIME && !config.clockEnabled) 
   {
     return false;
   }
@@ -74,9 +63,6 @@ void loop()
   {
     frame_state = target_state;
     lastStateChange = millis();
-
-    Serial.print("new state: ");
-    Serial.println(frame_state);
   }
 
   handleGifQueue();
@@ -90,8 +76,6 @@ void loop()
   {
     handleClock();
   }
-
-  handleWebserver();
 
   if (saveConfig && !gifPlaying && frame_state != INDEXING)
   {

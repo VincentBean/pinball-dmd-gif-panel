@@ -8,8 +8,8 @@
 #include "components/gif/GifLoader/Sequential.hpp"
 #include "components/gif/GifLoader/Indexed.hpp"
 
-#define MAX_QUEUED_GIFS 32
-#define PREVIOUS_GIFS_TRACK_COUNT 10
+#define MAX_QUEUED_GIFS 2
+#define PREVIOUS_GIFS_TRACK_COUNT 32
 
 Sequential sequentialGifLoader;
 Indexed indexedGifLoader;
@@ -55,7 +55,7 @@ void populateGifQueue()
         loadedFile = indexedGifLoader.loadNextFile();
     }
 
-    if (loadedFile == "" || std::find(previous.begin(), previous.end(), loadedFile) != previous.end())
+    if (loadedFile == "")
     {
         return;
     }
@@ -65,18 +65,14 @@ void populateGifQueue()
 
 void handleGifQueue()
 {
-    if (gif_queue.size() <= (MAX_QUEUED_GIFS - 5))
+    if (gif_queue.size() > 1)
     {
-        queue_populate_requred = true;
+        return;
     }
 
-    if (!queue_populate_requred)
-        return;
-
-    populateGifQueue();
-
-    if (gif_queue.size() >= MAX_QUEUED_GIFS)
-        queue_populate_requred = false;
+    for (int i = 0; i < MAX_QUEUED_GIFS; i++) {
+        populateGifQueue();    
+    }
 }
 
 String getNextGif()

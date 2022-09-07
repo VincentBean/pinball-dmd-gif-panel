@@ -20,32 +20,12 @@ void nextGif()
 {
     current_gif = getNextGif();
 
-    while (!sd.exists(current_gif)) {
-        message("Missing files", true);
-        current_gif = getNextGif();
-
-        if (sd.exists(current_gif)) {
-            missingCount = 0;
-            break;
-        }
-
-        missingCount++;
-
-        if (missingCount > 10 && config.loadStrategy == INDEXED) {
-            loadStrategy = SEQUENTIAL;            
-        }
-
-        delay(100);
-    }
-
     gifStart = millis();
-    interruptGif = true;
 }
 
 void setGif(String gif)
 {
     current_gif = gif;
-    interruptGif = true;
 }
 
 void handleGif()

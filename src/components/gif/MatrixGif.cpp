@@ -161,8 +161,6 @@ void ShowGIF(char *name)
 {
   if (!gifPlaying)
   {
-    // isBusy
-
     LoadGIF(name);
     gifPlaying = true;
     interruptGif = false;

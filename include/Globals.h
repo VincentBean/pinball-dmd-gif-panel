@@ -26,6 +26,7 @@ typedef enum {
 
 extern MatrixPanel_I2S_DMA *dma_display;
 extern SdFs sd;
+extern bool sdError;
 
 extern Config config;
 extern bool saveConfig;

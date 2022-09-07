@@ -10,15 +10,9 @@ SoftSpiDriver<SOFT_MISO_PIN, SOFT_MOSI_PIN, SOFT_SCK_PIN> softSpi;
 #define SD_CONFIG SdSpiConfig(SD_CS_PIN, DEDICATED_SPI, SD_SCK_MHZ(0), &softSpi)
 
 SdFs sd;
+bool sdError;
 
 void InitSdCard()
 {
-  if (!sd.begin(SD_CONFIG))
-  {
-    smallFont();
-    message("SD fail", true);
-    delay(1000);
-
-    ESP.restart();
-  }
+  sdError = !sd.begin(SD_CONFIG);
 }

@@ -26,14 +26,12 @@ void setup()
   Serial.begin(115200);
 
   InitMatrix();
-
+  
   InitMatrixGif();
-
+  
   InitSdCard();
-
+  
   loadSettings();
-
-  InitLoader();
 
   setupWifi();
 
@@ -59,6 +57,13 @@ bool targetStateValid()
 
 void loop()
 {
+  if (sdError) {
+    message("Check SD", true);
+    delay(5000);
+    clearMatrix();
+    ESP.restart();
+  }
+
   if (!gifPlaying && target_state != frame_state && targetStateValid())
   {
     frame_state = target_state;

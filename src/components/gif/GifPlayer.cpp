@@ -14,10 +14,29 @@ unsigned long gifStart = 0;
 int minPlaytime = 2000; // TODO: Make configurable
 String current_gif;
 int currentGifIndex = 0;
+int missingCount = 0;
 
 void nextGif()
 {
     current_gif = getNextGif();
+
+    while (!sd.exists(current_gif)) {
+        message("Missing files", true);
+        current_gif = getNextGif();
+
+        if (sd.exists(current_gif)) {
+            missingCount = 0;
+            break;
+        }
+
+        missingCount++;
+
+        if (missingCount > 10 && config.loadStrategy == INDEXED) {
+            loadStrategy = SEQUENTIAL;            
+        }
+
+        delay(100);
+    }
 
     gifStart = millis();
     interruptGif = true;

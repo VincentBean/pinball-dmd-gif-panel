@@ -24,13 +24,6 @@ std::stack<FsFile> directories;
 
 std::vector<String> previous;
 
-void InitLoader()
-{
-    if (indexedGifLoader.indexFileExists() && loadStrategy != INDEXED) {
-        loadStrategy = INDEXED;
-    }
-}
-
 bool queueEmpty()
 {
     return gif_queue.size() == 0;

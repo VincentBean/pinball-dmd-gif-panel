@@ -8,16 +8,12 @@ typedef enum {
 
     /**
      * An indexing file is created to randomly load the GIFS
-     * Best for large amounts of GIFS
-     * 
-     * For the best performance split the GIFS in directories.
-     * Indexing 1000 files in a directory should take about 6 minutes
+     * Best for large amounts of GIFS and randomly loading them
      */  
     INDEXED
 
 } load_strategy_t;
 
-void InitLoader();
 bool queueEmpty();
 void countTotalFiles();
 void handleGifQueue();

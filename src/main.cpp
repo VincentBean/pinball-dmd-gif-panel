@@ -13,6 +13,7 @@
 #include "components/clock/Clock.hpp"
 #include "components/sd/SdCard.hpp"
 #include "components/wifi/Webserver.hpp"
+#include "components/update/FirmwareUpdate.hpp"
 
 frame_status_t frame_state = PLAYING_ART;
 frame_status_t target_state = PLAYING_ART;
@@ -32,6 +33,8 @@ void setup()
   InitSdCard();
   
   loadSettings();
+
+  checkUpdate();
 
   setupWifi();
 

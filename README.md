@@ -1,4 +1,10 @@
-# Pinball DMD Clock
+# Pinball DMD GIF Player
+
+This is a project to play GIFs on a LED matrix. With a resolution of 128x32 it is the same as most pinball DMD's.
+
+![Preview](./docs/img/preview.gif)
+
+![Overfiew](./docs/img/overview.jpg)
 
 
 ## Building
@@ -16,15 +22,9 @@ File: `.pio/libdeps/wemos_d1_mini32/SdFat/src/SdFatConfig.h`
 TODO: Use a patch for this
 
 
-
-
-
 ## Resources / Similar projects
 
 Here is a list of resources and similar projects.
-
-### GIFS
-
 
 ### Open Source Projects
 

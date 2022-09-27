@@ -22,11 +22,10 @@ void setupWifi()
     wifiManager.setAPCallback(configModeCallback);
     wifiManager.setConfigPortalTimeout(180);
 
-    wifiManager.setClass("invert");
     wifiManager.setScanDispPerc(true);
 
-    wifiManager.setConnectRetries(10);
-    wifiManager.setConnectTimeout(60);
+    wifiManager.setConnectRetries(3);
+    wifiManager.setConnectTimeout(2);
 
-    wifiManager.autoConnect("PinClock");
+    wifiManager.autoConnect("DmdPlayer");
 }

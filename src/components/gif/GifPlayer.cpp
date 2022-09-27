@@ -5,22 +5,26 @@
 #include "components/gif/GifLoader.hpp"
 #include "Helpers.hpp"
 
-#define DEFAULT_GIF "boot.gif"
-
 bool autoPlay = true;
 bool allowNextGif = true;
 
 unsigned long gifStart = 0;
-int minPlaytime = 2000; // TODO: Make configurable
 String current_gif;
-int currentGifIndex = 0;
-int missingCount = 0;
+int gifClockCount = 0;
 
 void nextGif()
 {
+    if (gifClockCount >= config.showTimeEveryXGif) {
+        gifClockCount = 0;
+        target_state = SHOW_TIME;
+        return;
+    }
+
     current_gif = getNextGif();
 
     gifStart = millis();
+
+    gifClockCount++;
 }
 
 void setGif(String gif)
@@ -46,7 +50,7 @@ void handleGif()
         nextGif();
     }
 
-    allowNextGif = autoPlay && millis() - gifStart > minPlaytime;
+    allowNextGif = autoPlay && millis() - gifStart > config.minGifShowtime;
     if (!gifPlaying && allowNextGif)
     {
         nextGif();

@@ -11,7 +11,6 @@ void setupClock()
         return;
     }
 
-    setDebug(INFO);
     setServer();
     message("Syncing clock");
     
@@ -36,7 +35,7 @@ void handleClock()
 
     dma_display->fillScreen(dma_display->color565(0, 0, 0));
 
-    dma_display->setTextColor(dma_display->color565(0, 255, 0));
+    dma_display->setTextColor(dma_display->color565(config.clockR, config.clockG, config.clockB));
 
     dma_display->println(timezone.dateTime("H:i:s"));
     delay(1000);

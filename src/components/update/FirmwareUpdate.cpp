@@ -56,7 +56,7 @@ void checkUpdate()
     }
 
     message("Found update file", true);
-    delay(1000);
+    delay(1000);    
 
     size_t size = updateBin.size();
 

@@ -56,7 +56,6 @@ void loadSettings()
   }
 
   applySettings();  
-  saveSettings();
 }
 
 void saveSettings()
@@ -65,8 +64,8 @@ void saveSettings()
 
   doc[CLOCK_ENABLED_KEY] = config.clockEnabled;
   doc[CLOCK_R_KEY] = config.clockR;
-  doc[CLOCK_G_KEY] = config.clockR;
-  doc[CLOCK_B_KEY] = config.clockR;
+  doc[CLOCK_G_KEY] = config.clockG;
+  doc[CLOCK_B_KEY] = config.clockB;
 
   doc[SHOW_TIME_EVERY_KEY] = config.showTimeEveryXGif;
   doc[MIN_GIF_SHOW_TIME_KEY] = config.minGifShowtime;

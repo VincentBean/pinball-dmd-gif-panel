@@ -2,6 +2,8 @@
 #include "Globals.h"
 #include "Helpers.hpp"
 
+#define CLEAR_SETTINGS_FLAG "/reset_creds"
+
 WiFiManager wifiManager;
 
 void configModeCallback (WiFiManager *myWiFiManager) {
@@ -15,6 +17,12 @@ void setupWifi()
 {
     if (!config.clockEnabled) {
         return;
+    }
+
+    if (sd.exists(CLEAR_SETTINGS_FLAG))
+    {
+        wifiManager.resetSettings();
+        sd.remove(CLEAR_SETTINGS_FLAG);
     }
 
     WiFi.mode(WIFI_STA);
